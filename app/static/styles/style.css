@@ -1,0 +1,99 @@
+table, th, td {
+    border: 1px solid black;
+}
+
+.container {
+    width: 70%;
+    margin: 0 auto;
+    padding: 1.3rem;
+}
+
+.title {
+    text-align: center;
+}
+
+.container-input-hotels {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.input-hotels {
+    display: block;
+    padding: 0.3rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.form-container-img {
+    display: grid;
+    grid-template-areas: 'imgEdit imgView';
+}
+
+.container-img-edit {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    grid-area: imgEdit;
+}
+
+.container-img-view {
+    grid-area: imgView;
+}
+
+.form-img-hotels {
+    width: 100px;
+}
+
+.button-hotels {
+    padding: 0.3rem 3rem;
+}
+
+.button-hotels:hover {
+    cursor: pointer;
+}
+
+.container-list-hotel {
+    display: flex;
+
+}
+
+.container-image-list-hotel {
+
+}
+
+.container-info-list-hotel {
+
+}
+
+.image-list-hotel {
+    width: 150px;
+    margin-right: 0.3rem;
+}
+
+.title-hotel {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.container-img-detail-hotel {
+    text-align: center;
+}
+
+.img-detail-hotel {
+
+}
+
+.img-detail-hotel-room {
+    padding: 0.2rem;
+    margin-left: 2rem;
+    width: 150px;
+}
+
+.img-detail-hotel-room:hover {
+    cursor: pointer;
+}
+
+.img-detail-hotel-room:active {
+    margin-left: 0;
+    width: 300px;
+}
+

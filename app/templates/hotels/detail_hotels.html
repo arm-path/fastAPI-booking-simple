@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">{{ title }}</h1>
+    <h3 class="title">{{ hotel.location }}</h3>
+    {% if hotel.image %}
+    <div class="container-img-detail-hotel">
+        <img class="img-detail-hotel"
+             src="{{ url_for('static', path=hotel.image.upload_to) }}"
+             alt="{{ hotel.image.title }}">
+    </div>
+    {% endif %}
+    <h3>Список комнат:</h3>
+    {% if hotel.rooms %}
+    <table style="width:100%">
+        <tr>
+            <td>Название</td>
+            <td>Описание</td>
+            <td>Цена</td>
+            <td>Количество</td>
+            <td>Изображение</td>
+        </tr>
+
+        {% for room in hotel.rooms %}
+        <tr>
+            <td>{{ room.title }}</td>
+            <td>{{ room.description }}</td>
+            <td>{{ room.price }}</td>
+            <td>{{ room.quantity }}</td>
+            <td>
+                {% if room.image %}
+                <img class="img-detail-hotel-room"
+                     src="{{ url_for('static', path=room.image.upload_to) }}"
+                     alt="{{ room.image.title }}">
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

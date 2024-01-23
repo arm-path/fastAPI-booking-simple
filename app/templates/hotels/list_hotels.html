@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Список отелей</h1>
+    {% for el in hotels %}
+    <div class="container-list-hotel">
+        <div class="container-image-list-hotel">
+            {% if el.image %}
+            <img class="image-list-hotel"
+                 src="{{ url_for('static', path=el.image.upload_to) }}"
+                 alt="{{ el.image.title }}">
+            {% endif %}
+        </div>
+        <div class="container-info-list-hotel">
+            <div class="title-hotel">{{ el.title }}</div>
+            <div>{{ el.location }}</div>
+        </div>
+    </div>
+
+    <hr />
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Обновление отеля</h1>
+    <form id="form-hotels" class="container-input-hotels" action="/hotels/update/{{ obj.id }}" method="post">
+        <input class="input-hotels" type="text" name="title" placeholder="Название отеля" value="{{ obj.title }}">
+        <input class="input-hotels" type="text" name="location" placeholder="Адрес отеля" value="{{ obj.location }}">
+        <div class="form-container-img">
+            <div class="container-img-edit">
+                Изображение: <input class="input-hotels" type="file" name="image">
+                <div>Очистить изображение: <input type="checkbox" name="action_image"></div>
+            </div>
+            <div class="container-img-view">
+                {% if obj.image %}
+                <img class="form-img-hotels"
+                     src="{{ url_for('static', path=obj.image.upload_to) }}"
+                     alt="{{ obj.image.title }}">
+                {% endif %}
+            </div>
+        </div>
+        <input class="input-hotels" type="number" name="rooms_quantity" value="{{ obj.rooms_quantity }}">
+        <button class=" button-hotels" type="submit">Отправить</button>
+    </form>
+</div>
+
+<script>
+    let formHotels = document.getElementById('form-hotels')
+    formHotels.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let formData = new FormData();
+        let formListData = formHotels.getElementsByTagName('input')
+        for (let i = 0; i < formListData.length; i++) {
+            if (formListData[i].type === 'file') {
+                if (formListData[i].files[0]) formData.append(formListData[i].name, formListData[i].files[0])
+            } else if (formListData[i].type === 'checkbox') {
+                if (formListData[i].checked) formData.append(formListData[i].name, true)
+                else formData.append(formListData[i].name, false)
+            } else {
+                if (formListData[i].value) formData.append(formListData[i].name, formListData[i].value)
+            }
+        }
+
+        fetch(formHotels.action, {
+            method: 'PUT',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+    })
+</script>
+{% endblock %}

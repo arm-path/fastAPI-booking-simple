@@ -1,0 +1,60 @@
+version: "7"
+
+services:
+  db:
+    image: postgres:15.4
+    container_name: booking_db
+    restart: always
+    volumes:
+      - ./app/docker/postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5431:5432
+    env_file:
+      - .env-docker
+
+  redis:
+    image: redis:7.2.4
+    container_name: booking_redis
+    restart: always
+    volumes:
+      - ./app/docker/redis/data:/var/lib/redis/data
+    env_file:
+      - .env-docker
+
+  booking:
+    build: .
+    restart: always
+    volumes:
+      - .:/booking
+    env_file:
+      - .env-docker
+    ports:
+      - "7000:7000"
+    command: bash -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:7000"
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build: .
+    restart: always
+    env_file:
+      - .env-docker
+    command: bash -c "celery -A app.celery_tasks:app_celery worker --loglevel=INFO -P solo"
+    depends_on:
+      - redis
+
+  flower:
+    build: .
+    restart: always
+    env_file:
+      - .env-docker
+    ports:
+      - "7777:5555"
+    command: bash -c "celery -A app.celery_tasks:app_celery flower"
+
+    depends_on:
+      - redis
+      - celery
+
+

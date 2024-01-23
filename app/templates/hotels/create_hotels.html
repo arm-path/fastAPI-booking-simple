@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Создание отеля</h1>
+    <form id="form-hotels" class="container-input-hotels" action="/hotels/create" method="post">
+        <input class="input-hotels" type="text" name="title" placeholder="Название отеля">
+        <input class="input-hotels" type="text" name="location" placeholder="Адрес отеля">
+        Изображение: <input class="input-hotels" type="file" name="image">
+        <input class="input-hotels" type="number" name="rooms_quantity" placeholder="Количество комнат">
+        <button class="button-hotels" type="submit">Отправить</button>
+    </form>
+</div>
+
+<script>
+    let formHotels = document.getElementById('form-hotels')
+    formHotels.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let formData = new FormData();
+        let formListData = formHotels.getElementsByTagName('input')
+        for (let i = 0; i < formListData.length; i++) {
+            if (formListData[i].type === 'file') {
+                if (formListData[i].files[0]) formData.append(formListData[i].name, formListData[i].files[0])
+            } else {
+                if (formListData[i].value) formData.append(formListData[i].name, formListData[i].value)
+            }
+        }
+
+        fetch('/hotels/create', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+    })
+</script>
+{% endblock %}
+
